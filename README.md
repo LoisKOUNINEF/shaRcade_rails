@@ -1,4 +1,6 @@
-### Lien vers le repo du [frontend](https://github.com/Teacher-droid/shaRcade_react)
+# ShaRcade (Rail back-end)
+
+### _Lien vers le repo du [front-end](https://github.com/Teacher-droid/shaRcade_react)_
 
 # ShaRcade! (nom non-définitif :wink:)
 
@@ -35,7 +37,6 @@ Plus sérieusement, le modèle central n'est pas trop compliqué et devrait vous
 - A cela pourrait sûrement s'ajouter quelques "vérues", du genre _like_ et commentaires à propos des cours
 
 ### 3.2. Front-end
-
 Un milk-shake à base de :
 
 - React, pour la structure et les mécanismes
