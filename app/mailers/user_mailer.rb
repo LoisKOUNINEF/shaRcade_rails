@@ -1,12 +1,12 @@
 class UserMailer < ApplicationMailer
-default from: 'no-reply@monsite.fr'
-def welcome_email(user)
+  default from: '@wizarddidit@outlook.fr'
+  def welcome_email(user)
 
-@user = user
+    @user = user
 
-@url = 'http://monsite.fr/login'
+    @url = 'http://monsite.fr/login'
 
-destinataire et sujet.
-mail(to: @user.email, subject: 'Bienvenue chez nous !')
-end
+    mail(to: @user.email, subject: 'Bienvenue chez nous !')
+  end
+
 end
