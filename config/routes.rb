@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :api_calls
   resources :scores
   resources :games
   resources :game_types
