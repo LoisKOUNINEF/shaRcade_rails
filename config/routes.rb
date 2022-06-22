@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :feedbacks
   resources :favorites
   resources :api_calls
   resources :scores
