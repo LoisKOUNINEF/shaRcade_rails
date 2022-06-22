@@ -15,11 +15,11 @@ class User < ApplicationRecord
   has_many :scores
   has_many :played_games, through: :scores, class_name: :game
   has_many :api_calls
-  has_many :registered_games, through: :scores, class_name: :game
+  has_many :registered_games, through: :api_calls, class_name: :game
   has_many :favorites
-  has_many :favorite_games, through: :scores, class_name: :game
+  has_many :favorite_games, through: :favorites, class_name: :game
   has_many :feedbacks
-  has_many :evaluated_games, through: :scores, class_name: :game
+  has_many :evaluated_games, through: :feedbacks, class_name: :game
 
   def what_role?
     return self.role
