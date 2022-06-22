@@ -27,3 +27,6 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+# .env can always be useful and shall not be forgotten in gitignore
+.env

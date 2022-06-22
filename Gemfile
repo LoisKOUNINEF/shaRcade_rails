@@ -52,6 +52,7 @@ group :development, :test do
   gem "binding_of_caller", "~> 1.0"
   gem "table_print", "~> 1.5"
   gem "dotenv", "~> 2.7"
+  gem "letter_opener", "~> 1.8"
 end
 
 # specific shaRcade environments gems
