@@ -7,6 +7,9 @@ Rails.application.routes.draw do
   }
   get '/member-data', to: 'members#show'
 
+  get 'users/actions', to: 'users/actions#index', as: 'users_index'
+  get 'users/actions/:id', to: 'users/actions#show', as: 'user_show'
+
   resources :feedbacks
   resources :favorites
   resources :api_calls
