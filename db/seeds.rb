@@ -11,7 +11,9 @@
 #  20220623: JBV - (Re)took over this barren yet essential task for ShaRcade's sake  #
 ######################################################################################
 
-# Notice: requires the "faker" and "database_cleaner" gems to be part of the Rails environment
+# Notice: requires the "faker" and "database_cleaner" gems to be installed / part of the Rails environment
+require 'faker'
+require 'database_cleaner/active_record'
 
 # Erase the content of all tables, hence reseting the related "id" counters
 DatabaseCleaner.clean_with(:truncation)
@@ -218,7 +220,7 @@ User.all.each do |my_user|
   Score.create(score: rand(10000000),
                game_id: Game.all.sample.id,
                user_id: my_user.id)
-  puts "    - Created a new 'Score'... Score ID: #{Score.last.id} - Score: #{Score.last.score} - Player: #{User.find(Score.last.user_id).firstname} #{User.find(Score.last.user_id).lastname} - Game: #{Game.find(Score.last.game_id).game_title}."
+  puts "    - Created a new 'Score'... Score ID: #{Score.last.id} - Score: #{Score.last.score} - Player: #{User.find(my_user.id).firstname} #{User.find(my_user.id).lastname} - Game: #{Game.find(Score.last.game_id).game_title}."
 end
 puts "  > Finished seeding DB with 'Score' objects"
 puts
@@ -234,7 +236,19 @@ puts
 #  user_id: integer  #
 ######################
 
-
+puts "  > Starts seeding DB with 'API Call' objects"
+def apikeygen(my_num_char)
+  charset = Array('A'..'Z') + Array('a'..'z') + Array('0'..'9')
+  Array.new(my_num_char) { charset.sample }.join
+end
+Game.all.each do |my_game|
+  ApiCall.create(api_key: apikeygen(8),
+                 game_id: my_game.id,
+                 user_id: User.where(role:1).sample.id)
+  puts "    - Created a new 'Api Call'... API Call ID: #{ApiCall.last.id} - API Key: #{ApiCall.last.api_key} - Editor: #{User.find(ApiCall.last.user_id).firstname} #{User.find(ApiCall.last.user_id).lastname} - Game: #{my_game.game_title}."
+end
+puts "  > Finished seeding DB with 'API Call' objects"
+puts
 
 ###############
 #             #
@@ -244,8 +258,30 @@ puts
 #  id: integer            #
 #  game_type_id: integer  #
 #  game_id: integer       #
+#  user_id: integer       #
 ###########################
-
+puts "  > Starts seeding DB with 'Favorite' objects"
+User.where(role:0).or(User.where(role:1)).each do |my_user|
+  puts "    - Treating Favorites for User: #{my_user.firstname} #{my_user.lastname}."
+  # NB: 2 chance over 3 to generate a 'Favorite Game' for each given user
+  if rand(3) != 0
+    Favorite.create(user_id: my_user.id,
+                    game_id: Game.all.sample.id)
+    puts "      a) Created a new 'Favorite Game'... Favorite ID: #{Favorite.last.id} - Favorite Game: #{Game.find(Favorite.last.game_id).game_title} - User: #{my_user.firstname} #{my_user.lastname}."
+  else
+    puts "      a) No 'Favorite Game' generated."
+  end
+  # NB: 2 chance over 3 to generate a 'Favorite Game Type' for each given user
+  if rand(3) != 0
+    Favorite.create(user_id: my_user.id,
+                    game_type_id: GameType.all.sample.id)
+    puts "      b) Created a new 'Favorite Game Type'... Favorite ID: #{Favorite.last.id} - Favorite Game Type: #{GameType.find(Favorite.last.game_type_id).game_type_title} - User: #{my_user.firstname} #{my_user.lastname}."
+  else
+    puts "      b) No 'Favorite Game Type' generated."
+  end
+end
+puts "  > Finished seeding DB with 'Favorite' objects"
+puts
 
 
 ###############
@@ -261,7 +297,22 @@ puts
 #  game_id: integer  #
 ######################
 
-
+puts "  > Starts seeding DB with 'Feedback' objects"
+User.where(role:0).or(User.where(role:1)).each do |my_user|
+  # NB: 2 chance over 3 to generate a 'Feedback' for each given user
+  if rand(3) != 0
+    Feedback.create(rating: rand(6),
+                    title: Faker::Lorem.sentence(word_count: 1, supplemental: true, random_words_to_add: 3),
+                    content: Faker::Lorem.paragraph(sentence_count: 2, supplemental: true, random_sentences_to_add: 3),
+                    user_id: my_user.id,
+                    game_id: Game.all.sample.id)
+    puts "    - Created a new 'Feedback'... Feedback ID: #{Feedback.last.id} - User: #{my_user.firstname} #{my_user.lastname} - Game: #{Game.find(Feedback.last.game_id).game_title} - Rating: #{Feedback.last.rating} - Title: #{Feedback.last.title.slice(0,19)}... - Content: #{Feedback.last.content.slice(0,29)}..."
+  else
+    puts "    - No 'Feedback' generated for User: #{my_user.firstname} #{my_user.lastname}."
+  end
+end
+puts "  > Finished seeding DB with 'Feedback' objects"
+puts
 puts
 puts ")>--~={ !! SEEDING - Ends !! }=~--<("
 puts
