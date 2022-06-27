@@ -10,9 +10,61 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_22_142935) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_22_150723) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "api_calls", force: :cascade do |t|
+    t.string "api_key", null: false
+    t.bigint "game_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_api_calls_on_game_id"
+    t.index ["user_id"], name: "index_api_calls_on_user_id"
+  end
+
+  create_table "favorites", force: :cascade do |t|
+    t.bigint "game_type_id"
+    t.bigint "game_id"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_favorites_on_game_id"
+    t.index ["game_type_id"], name: "index_favorites_on_game_type_id"
+    t.index ["user_id"], name: "index_favorites_on_user_id"
+  end
+
+  create_table "feedbacks", force: :cascade do |t|
+    t.integer "rating", default: 0
+    t.string "title"
+    t.text "content"
+    t.bigint "user_id", null: false
+    t.bigint "game_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_feedbacks_on_game_id"
+    t.index ["user_id"], name: "index_feedbacks_on_user_id"
+  end
+
+  create_table "game_types", force: :cascade do |t|
+    t.string "game_type_title"
+    t.text "game_type_descr"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "games", force: :cascade do |t|
+    t.string "game_title"
+    t.string "game_url"
+    t.text "game_descr"
+    t.bigint "game_type_id", null: false
+    t.string "image_url", default: "default_game_screenshot.png"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "mobile_ready", default: false
+    t.index ["game_type_id"], name: "index_games_on_game_type_id"
+  end
 
   create_table "jwt_denylist", force: :cascade do |t|
     t.string "jti", null: false
@@ -20,6 +72,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_22_142935) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["jti"], name: "index_jwt_denylist_on_jti"
+  end
+
+  create_table "scores", force: :cascade do |t|
+    t.integer "score"
+    t.bigint "game_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_scores_on_game_id"
+    t.index ["user_id"], name: "index_scores_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -40,4 +102,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_22_142935) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "api_calls", "games"
+  add_foreign_key "api_calls", "users"
+  add_foreign_key "favorites", "game_types"
+  add_foreign_key "favorites", "games"
+  add_foreign_key "favorites", "users"
+  add_foreign_key "feedbacks", "games"
+  add_foreign_key "feedbacks", "users"
+  add_foreign_key "games", "game_types"
+  add_foreign_key "scores", "games"
+  add_foreign_key "scores", "users"
 end
