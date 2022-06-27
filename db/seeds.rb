@@ -235,6 +235,7 @@ puts
 #  game_id: integer  #
 #  user_id: integer  #
 ######################
+
 puts "  > Starts seeding DB with 'API Call' objects"
 def apikeygen(my_num_char)
   charset = Array('A'..'Z') + Array('a'..'z') + Array('0'..'9')
@@ -248,7 +249,6 @@ Game.all.each do |my_game|
 end
 puts "  > Finished seeding DB with 'API Call' objects"
 puts
-
 
 ###############
 #             #
@@ -265,7 +265,7 @@ User.where(role:0).or(User.where(role:1)).each do |my_user|
   puts "    - Treating Favorites for User: #{my_user.firstname} #{my_user.lastname}."
   # NB: 2 chance over 3 to generate a 'Favorite Game' for each given user
   if rand(3) != 0
-    Favorite.create(user_id: my_user.id, 
+    Favorite.create(user_id: my_user.id,
                     game_id: Game.all.sample.id)
     puts "      a) Created a new 'Favorite Game'... Favorite ID: #{Favorite.last.id} - Favorite Game: #{Game.find(Favorite.last.game_id).game_title} - User: #{my_user.firstname} #{my_user.lastname}."
   else
@@ -273,7 +273,7 @@ User.where(role:0).or(User.where(role:1)).each do |my_user|
   end
   # NB: 2 chance over 3 to generate a 'Favorite Game Type' for each given user
   if rand(3) != 0
-    Favorite.create(user_id: my_user.id, 
+    Favorite.create(user_id: my_user.id,
                     game_type_id: GameType.all.sample.id)
     puts "      b) Created a new 'Favorite Game Type'... Favorite ID: #{Favorite.last.id} - Favorite Game Type: #{GameType.find(Favorite.last.game_type_id).game_type_title} - User: #{my_user.firstname} #{my_user.lastname}."
   else
@@ -296,6 +296,7 @@ puts
 #  user_id: integer  #
 #  game_id: integer  #
 ######################
+
 puts "  > Starts seeding DB with 'Feedback' objects"
 User.where(role:0).or(User.where(role:1)).each do |my_user|
   # NB: 2 chance over 3 to generate a 'Feedback' for each given user
@@ -312,7 +313,6 @@ User.where(role:0).or(User.where(role:1)).each do |my_user|
 end
 puts "  > Finished seeding DB with 'Feedback' objects"
 puts
-
 puts
 puts ")>--~={ !! SEEDING - Ends !! }=~--<("
 puts

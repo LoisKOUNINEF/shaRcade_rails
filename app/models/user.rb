@@ -6,8 +6,6 @@ class User < ApplicationRecord
   jwt_revocation_strategy: JwtDenylist
 
   validates :nickname, presence: true, length: { in: 3..20 }
-  validates :firstname, length: { in: 3..20 }
-  validates :lastname, length: { in: 3..20 }
 
   enum role: [:player, :editor, :admin]
   after_initialize :set_default_role, :if => :new_record?
