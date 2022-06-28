@@ -64,6 +64,12 @@ game_type_cohort = [["FPS", "First-Person Shooter Game", "Doom"],
                     ["Racing", "Any type of competitive driving, sailing, steering game.", "Gran Turismo"],
                     ["Other", "Games whose genre cannot be claissified in any other category listed hereby.", "WarioWare"]]
 
+# API and User identification key generator
+def shaRcadekeygen(my_num_char)
+  charset = Array('A'..'Z') + Array('a'..'z') + Array('0'..'9')
+  Array.new(my_num_char) { charset.sample }.join
+end
+
 puts
 puts ")>--~={ !! SEEDING - Start !! }=~--<("
 puts
@@ -92,8 +98,9 @@ player_cohort.times do |x|
               firstname: Faker::Name.unique.first_name,
               lastname: Faker::Name.unique.last_name,
               gender: gender_cohort[rand(gender_cohort.length)],
-              role: 0)
-  puts "    - Created a new 'Player'... User ID: #{User.last.id} - Nickname: #{User.last.nickname} - First name: #{User.last.firstname} - Last name: #{User.last.lastname} - E-mail: #{User.last.email} - Gender: #{User.last.gender} - Role: #{User.last.role}"
+              role: 0,
+              user_key: shaRcadekeygen(16))
+  puts "    - Created a new 'Player'... User ID: #{User.last.id} - Nickname: #{User.last.nickname} - First name: #{User.last.firstname} - Last name: #{User.last.lastname} - E-mail: #{User.last.email} - Gender: #{User.last.gender} - Role: #{User.last.role}  - User 128-bit Key: #{User.last.user_key}"
 end
 puts "  > Finished seeding ShaRcade DB with 'Players'"
 puts
@@ -122,8 +129,9 @@ editor_cohort.times do |x|
               firstname: Faker::Name.unique.first_name,
               lastname: Faker::Name.unique.last_name,
               gender: gender_cohort[rand(gender_cohort.length)],
-              role: 1)
-  puts "    - Created a new 'Editor'... User ID: #{User.last.id} - Nickname: #{User.last.nickname} - First name: #{User.last.firstname} - Last name: #{User.last.lastname} - E-mail: #{User.last.email} - Gender: #{User.last.gender} - Role: #{User.last.role}"
+              role: 1,
+              user_key: shaRcadekeygen(16))
+  puts "    - Created a new 'Editor'... User ID: #{User.last.id} - Nickname: #{User.last.nickname} - First name: #{User.last.firstname} - Last name: #{User.last.lastname} - E-mail: #{User.last.email} - Gender: #{User.last.gender} - Role: #{User.last.role} - User 128-bit Key: #{User.last.user_key}"
 end
 puts "  > Finished seeding ShaRcade DB with 'Editors'"
 puts
@@ -152,8 +160,9 @@ admin_cohort.length.times do |x|
               firstname: admin_cohort[x][0],
               lastname: admin_cohort[x][1],
               gender: gender_cohort[rand(gender_cohort.length)],
-              role: 2)
-  puts "    - Created a new 'Admin'... User ID: #{User.last.id} - Nickname: #{User.last.nickname} - First name: #{User.last.firstname} - Last name: #{User.last.lastname} - E-mail: #{User.last.email} - Gender: #{User.last.gender} - Role: #{User.last.role}"
+              role: 2,
+              user_key: shaRcadekeygen(16))
+  puts "    - Created a new 'Admin'... User ID: #{User.last.id} - Nickname: #{User.last.nickname} - First name: #{User.last.firstname} - Last name: #{User.last.lastname} - E-mail: #{User.last.email} - Gender: #{User.last.gender} - Role: #{User.last.role} - User 128-bit Key: #{User.last.user_key}"
 end
 puts "  > Finished seeding ShaRcade DB with 'Admin(s)'"
 puts
@@ -225,6 +234,7 @@ end
 puts "  > Finished seeding DB with 'Score' objects"
 puts
 
+
 ###############
 #             #
 #  API_CALLS  #
@@ -237,12 +247,8 @@ puts
 ######################
 
 puts "  > Starts seeding DB with 'API Call' objects"
-def apikeygen(my_num_char)
-  charset = Array('A'..'Z') + Array('a'..'z') + Array('0'..'9')
-  Array.new(my_num_char) { charset.sample }.join
-end
 Game.all.each do |my_game|
-  ApiCall.create(api_key: apikeygen(8),
+  ApiCall.create(api_key: shaRcadekeygen(16),
                  game_id: my_game.id,
                  user_id: User.where(role:1).sample.id)
   puts "    - Created a new 'Api Call'... API Call ID: #{ApiCall.last.id} - API Key: #{ApiCall.last.api_key} - Editor: #{User.find(ApiCall.last.user_id).firstname} #{User.find(ApiCall.last.user_id).lastname} - Game: #{my_game.game_title}."
