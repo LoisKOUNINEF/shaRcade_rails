@@ -13,40 +13,41 @@ class Users::ActionsController < ApplicationController
     render json: @user
   end
 
-  # # POST /game_types
-  # def create
-  #   @game_type = GameType.new(game_type_params)
+  # POST /users/actions
+  def create
+    @user = User.new(user_params)
 
-  #   if @game_type.save
-  #     render json: @game_type, status: :created, location: @game_type
-  #   else
-  #     render json: @game_type.errors, status: :unprocessable_entity
-  #   end
-  # end
+    if @user.save
+      render json: @user, status: :created, location: @user
+    else
+      render json: @user.errors, status: :unprocessable_entity
+    end
+  end
 
-  # # PATCH/PUT /game_types/1
-  # def update
-  #   if @game_type.update(game_type_params)
-  #     render json: @game_type
-  #   else
-  #     render json: @game_type.errors, status: :unprocessable_entity
-  #   end
-  # end
+  # PATCH/PUT /user/actions/1
+  def update
+    if @user.update(user_params)
+      render json: @user
+    else
+      render json: @user.errors, status: :unprocessable_entity
+    end
+  end
 
-  # # DELETE /game_types/1
-  # def destroy
-  #   @game_type.destroy
-  # end
+  # DELETE /users/actions/1
+  def destroy
+    @user.destroy
+  end
 
   private
+  
     # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
-    # def user_params
-    #   params.require(:user).permit(:, :game_type_descr)
-    # end
+    def user_params
+      params.require(:user).permit(:email, :password, :nickname, :firstname, :lastname, :role, :birthdate, :gender, :user_key)
+    end
 
 end
