@@ -49,6 +49,14 @@ class ApiCallsController < ApplicationController
     return ApiCall.find_by(api_key: api_call_key).nil?
   end
 
+  def self.valid_key?(test_key)
+    (test_key.length == 16) && !!(test_key =~ /^[a-zA-Z0-9]{16}$/)
+  end
+
+  def self.exists_key?(test_key)
+    !ApiCall.find_by(api_key: test_key).nil?
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_api_call

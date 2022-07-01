@@ -38,6 +38,11 @@ class ScoresController < ApplicationController
     @score.destroy
   end
 
+  # Tests if a receive score is a valid number
+  def self.valid_score?(test_value)
+    test_value.is_a?(Integer)
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_score

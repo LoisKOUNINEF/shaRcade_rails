@@ -38,6 +38,16 @@ class Users::ActionsController < ApplicationController
     @user.destroy
   end
 
+  # Check for user email format validity using a quite comprehensive RegEx
+  def self.valid_email?(test_email)
+    !!(test_email =~ /^[a-zA-Z0-9\-\_\.]{2,63}@([\w\-]{2,63}\.)+[a-z]{2,63}$/)
+  end
+
+  # Check in ShaRcade DB if any User has this email registered
+  def self.exists_email?(test_email)
+    !User.find_by(email: test_email).nil?
+  end
+
   private
   
     # Use callbacks to share common setup or constraints between actions.

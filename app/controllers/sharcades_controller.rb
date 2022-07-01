@@ -1,5 +1,4 @@
 class SharcadesController < ApplicationController
-  # before_action :set_score, only: %i[ eat_score ]
   respond_to :json
 
   def eat_score
@@ -38,11 +37,11 @@ class SharcadesController < ApplicationController
     @sc_score = my_filtered_params[:hi_score]
     @sc_key = my_filtered_params[:api_key]
 
-    if (valid_email?(@sc_email))
-      if (valid_score?(@sc_score))
-        if (valid_key?(@sc_key))
-          if (exists_email?(@sc_email))
-            if (exists_key?(@sc_key))
+    if (Users::ActionsController.valid_email?(@sc_email))
+      if (ScoresController.valid_score?(@sc_score))
+        if (ApiCallsController.valid_key?(@sc_key))
+          if (Users::ActionsController.exists_email?(@sc_email))
+            if (ApiCallsController.exists_key?(@sc_key))
               sc_new_score = Score.new(game_id: ApiCall.find_by(api_key: @sc_key).game_id, 
                                        user_id: User.find_by(email: @sc_email).id, 
                                        score: @sc_score)
@@ -81,45 +80,22 @@ class SharcadesController < ApplicationController
     #   }
     
     ## REMINDER - Debug data set
-    puts "** BEGIN DEBUG **"
-    print "  > user_email: "
-    puts @sc_email
-    print "  > hi_score"
-    puts @sc_score
-    print "  > api_key:"
-    puts @sc_key
-    puts "** END DEBUG **"
+    # puts "** BEGIN DEBUG **"
+    # print "  > user_email: "
+    # puts @sc_email
+    # print "  > hi_score"
+    # puts @sc_score
+    # print "  > api_key:"
+    # puts @sc_key
+    # puts "** END DEBUG **"
     
   end
-
-  
 
   private
 
     # Only allow the very specific list of trusted parameters through
     def sharcade_params
       params.require(:score_token).permit(:hi_score, :api_key, :user_email)
-    end
-
-    # Check for user email format validity using a comprehensive RegEx
-    def valid_email?(test_email)
-      !!(test_email =~ /^[a-zA-Z0-9\-\_\.]{2,63}@([\w\-]{2,63}\.)+[a-z]{2,63}$/)
-    end
-
-    def valid_score?(test_value)
-      test_value.is_a?(Integer)
-    end
-
-    def valid_key?(test_key)
-      (test_key.length == 16) && !!(test_key =~ /^[a-zA-Z0-9]{16}$/)
-    end
-
-    def exists_email?(test_email)
-      !User.find_by(email: test_email).nil?
-    end
-
-    def exists_key?(test_key)
-      !ApiCall.find_by(api_key: test_key).nil?
     end
 
 end
