@@ -14,23 +14,8 @@ class SharcadesController < ApplicationController
     # curl -X POST -H 'Content-Type: application/json' -d '{"score_token":{"user_email":"player_01@yopmail.com","api_key":"D4b92SXc0j1SdxW","hi_score":999999}}' 'http://localhost:3000/sharcade_api'
     # curl -X POST -H 'Content-Type: application/json' -d '{"score_token":{"user_email":"player_01@yopmail.com","api_key":"0TtLHvGVHLtWLoNX","hi_score":27031978}}' 'http://localhost:3000/sharcade_api'
     
-
     ## REMINDER - Generating a 16-bit API key
     # my_api_key = ApiCallsController.shaRcadekeygen(16)
-
-    ## REMINDER - 2 options to render 2 objects in 1 JSON as a response
-    ## Option 1
-    # response = { :message =>,
-    #              :object1 => @my_api_response_1, 
-    #              :object2 => @my_api_response_2 }
-    # render :json => response
-    #
-    ## Option 2
-    # render json: {
-    #   message: "Got your request and here is the result, Dude!",
-    #   game: @my_api_response_1,
-    #   apicall: @my_api_response_2
-    # }, status: :ok
 
     my_filtered_params = sharcade_params
     @sc_email = my_filtered_params[:user_email]
