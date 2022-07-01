@@ -38,6 +38,11 @@ class ApiCallsController < ApplicationController
     @api_call.destroy
   end
 
+  # Checks if the given 'key' already exists (false) or is unique (true) in DB
+  def apikeyisunique?(api_call_key)
+    return ApiCall.find_by(api_key: api_call_key).nil?
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_api_call
