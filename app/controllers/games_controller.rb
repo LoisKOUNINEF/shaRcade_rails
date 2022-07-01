@@ -19,12 +19,12 @@ class GamesController < ApplicationController
     @game = Game.new(game_params)
 
     # Creating and fueling the sibling "API Call" object
-    # SharcadesController.apikeygen(n) - Generates a n-symbol-long API Key
+    # ApiCallsController.apikeygen(n) - Generates a n-symbol-long API Key
     # ApiCallsController.apikeyisunique?(my_key) - Checks if 'my_key_' does not already exist in the DB (i.e. in the ApiCall model)
     
     loop do
-      @my_api_key = SharcadesController.apikeygen(16)
-    break if ApiCallsController.apikeyisunique?(my_api_key)
+      @my_api_key = ApiCallsController.shaRcadekeygen(16)
+    break if ApiCallsController.isAPIkeyunique(@my_api_key)
     end 
     
     @apicall = ApiCall.new(api_key: @my_api_key, game_id: @game.id, user_id: current_user)

@@ -4,6 +4,16 @@ class SharcadesController < ApplicationController
 
   def eat_score
 
+    # REMINDER : request agreed format
+    # {"score_token" : { 
+    #   "hi-score" : "9999", 
+    #   "api_key" : "fds4554FDS45fdsf", 
+    #   "user_email" : "player_01@yopmail.com"}
+    # }
+
+    # REMINDER - Curl command line for test
+    # curl -X POST -d "{hiscore:9999,api_key:'fds4554FDS45fdsf',user_email:'player_01@yopmail.com'}" -H "Content-Type: application/json" http://localhost:3000/sharcade_api
+
     # if ()
     #   render json: {
     #     message: "If you see this, you're in!",
@@ -15,20 +25,30 @@ class SharcadesController < ApplicationController
     #     status: :
     #   }
     # end
-    my_api_call = {id: 666, api_key: shaRcadekeygen(16), game_id: 1, user_id: 1}
-    puts "Received request on ShaRcade API entry point"
+
+    my_received_params = sharcade_params
+    puts "***"
+    puts my_received_params
+    puts "***"
+
+    keygen_1 = ApiCallsController.shaRcadekeygen(16)
+    keygen_2 = ApiCallsController.shaRcadekeygen(16)
+    @my_api_response_1 = {id: 666, api_key: keygen_1, game_id: 1, user_id: 1}
+    @my_api_response_2 = {user_id: 7, game_id: 1, user_key: keygen_2, user_id: 1}
+    
+    # response = { :message =>,
+    #              :object1 => @my_api_response_1, 
+    #              :object2 => @my_api_response_2 }
+    # render :json => response
+    
+    puts "*** Received request on ShaRcade API entry point"
     render json: {
-      message: "Got your request",
-      api_call: my_api_call
+      message: "Got your request and here is the result, Dude!",
+      game: @my_api_response_1,
+      apicall: @my_api_response_2
     }, status: :ok
-    puts "Treated request. Goodbye!"
+    puts "*** Treated request. Goodbye!"
 
-  end
-
-  # API key generator for api_calls.api_key and users.api_key
-  def shaRcadekeygen(my_num_char)
-    charset = Array('A'..'Z') + Array('a'..'z') + Array('0'..'9')
-    Array.new(my_num_char) { charset.sample }.join
   end
 
   private
@@ -40,7 +60,7 @@ class SharcadesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def sharcade_params
-      params.require(:score).permit(:score, :game_id, :user_id)
+      params.permit(:hiscore, :api_key, :user_email)
     end
 
 end
