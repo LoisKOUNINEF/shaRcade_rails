@@ -87,5 +87,5 @@ Rails.application.configure do
   # shaRcade mailer
   config.action_mailer.perform_deliveries = true
   config.action_mailer.default_url_options = { :host =>
-    'sharcade-dev.herokuapp.com' }
+    'sharcade.herokuapp.com' }
   end
