@@ -1,4 +1,5 @@
 class GamesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_game, only: %i[ show update destroy ]
 
   # GET /games
@@ -17,11 +18,27 @@ class GamesController < ApplicationController
   def create
     @game = Game.new(game_params)
 
+    # # Creating the sibling "API Call" object
+    #
+    # # ApiCallsController.apikeygen() - Method to generate an API Key
+    # # ApiCallsController.apikeyisunique?() - Method to check it is unique in the DB (i.e. in the ApiCall model)
+    #
+    # loop do
+    #   my_api_key = apikeygen()
+    # break if my_api_key.apikeyisunique?
+    # end 
+    #
+    # @apicall = ApiCall.new(api_key: my_api_key, game_id: @game.id, user_id: current_user)
+    #
+    # if @apicall.save
     if @game.save
       render json: @game, status: :created, location: @game
     else
       render json: @game.errors, status: :unprocessable_entity
     end
+    # else
+    #   render json: @apicall.errors, status: :unprocessable_entity
+    # end
   end
 
   # PATCH/PUT /games/1
