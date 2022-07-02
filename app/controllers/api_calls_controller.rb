@@ -38,6 +38,25 @@ class ApiCallsController < ApplicationController
     @api_call.destroy
   end
 
+  # API key generator for api_calls.api_key and users.api_key
+  def self.shaRcadekeygen(my_num_char)
+    charset = Array('A'..'Z') + Array('a'..'z') + Array('0'..'9')
+    Array.new(my_num_char) { charset.sample }.join
+  end
+
+  # Checks if the given 'key' already exists (false) or is unique (true) in DB
+  def self.isAPIkeyunique?(api_call_key)
+    return ApiCall.find_by(api_key: api_call_key).nil?
+  end
+
+  def self.valid_key?(test_key)
+    (test_key.length == 16) && !!(test_key =~ /^[a-zA-Z0-9]{16}$/)
+  end
+
+  def self.exists_key?(test_key)
+    !ApiCall.find_by(api_key: test_key).nil?
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_api_call
