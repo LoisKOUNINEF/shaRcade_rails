@@ -45,7 +45,7 @@ class GamesController < ApplicationController
     
     loop do
       @my_api_key = ApiCallsController.shaRcadekeygen(16)
-    break if ApiCallsController.isAPIkeyunique(@my_api_key)
+    break if ApiCallsController.isAPIkeyunique?(@my_api_key)
     end 
     
     @apicall = ApiCall.new(api_key: @my_api_key, game_id: @game.id, user_id: current_user)
