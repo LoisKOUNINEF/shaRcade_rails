@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
   before_action :set_game, only: %i[ show update destroy ]
 
   # GET /games
