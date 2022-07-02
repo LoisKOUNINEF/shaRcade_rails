@@ -79,6 +79,7 @@ Rails.application.configure do
     logger           = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
+    config.log_level = :debug
   end
 
   # Do not dump schema after migrations.
@@ -87,5 +88,5 @@ Rails.application.configure do
   # shaRcade mailer
   config.action_mailer.perform_deliveries = true
   config.action_mailer.default_url_options = { :host =>
-    'sharcade-dev.herokuapp.com' }
+    'sharcade.herokuapp.com' }
   end
