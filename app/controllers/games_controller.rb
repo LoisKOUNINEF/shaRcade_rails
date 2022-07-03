@@ -45,7 +45,7 @@ class GamesController < ApplicationController
     # ApiCallsController.apikeyisunique?(my_key) - Checks if '@my_api_key' does not already exist in the DB (i.e. in the ApiCall model)
 
     # loop do
-      @my_api_key = ApiCallsController.shaRcadekeygen(16)
+    @my_api_key = ApiCallsController.shaRcadekeygen(16)
     # break if ApiCallsController.isAPIkeyunique?(@my_api_key)
     # end
 
@@ -88,12 +88,12 @@ class GamesController < ApplicationController
       params.require(:game).permit(:game_title, :game_url, :game_descr, :game_type_id, :image_url, :mobile_ready)
     end
 
-      def get_user_from_token
-    jwt_payload = JWT.decode(request.headers['Authorization'].split(' ')[1],
+    def get_user_from_token
+      jwt_payload = JWT.decode(request.headers['Authorization'].split(' ')[1],
 
-      Rails.application.credentials.devise[:jwt_secret_key]).first
-    user_id = jwt_payload['sub']
-    User.find(user_id.to_s)
-  end
+        Rails.application.credentials.devise[:jwt_secret_key]).first
+      user_id = jwt_payload['sub']
+      User.find(user_id.to_s)
+    end
 
 end
