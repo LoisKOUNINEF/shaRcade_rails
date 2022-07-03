@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-  # before_action :authenticate_user!
+  # before_action :authenticate_user!, only: %i[ create ]
   before_action :set_game, only: %i[ show update destroy ]
 
   # GET /games
@@ -37,7 +37,7 @@ class GamesController < ApplicationController
 
   # POST /games
   def create
-    @game = Game.new(game_params)
+    @game = Game.create(game_params)
 
     # Creating and fueling the sibling "API Call" object
     # ApiCallsController.apikeygen(n) - Generates a n-symbol-long API Key (16 bytes = 128 bits here below)
@@ -48,17 +48,17 @@ class GamesController < ApplicationController
     # break if ApiCallsController.isAPIkeyunique?(@my_api_key)
     # end
 
-    @apicall = ApiCall.create(api_key: @my_api_key, game_id: @game.id, user_id: current_user)
+    @apicall = ApiCall.new(api_key: @my_api_key, game_id: @game.id, user_id: current_user)
 
-    # if @apicall.save
+    if @apicall.save
       if @game.save
-        render json: {game: @game, apicall: @apicall}, status: :created
+        render json: {game: @game,  apicall: @apicall}, status: :created
       else
         render json: @game.errors, status: :unprocessable_entity
       end
-    # else
-    #   render json: @apicall.errors, status: :unprocessable_entity
-    # end
+    else
+      render json: @apicall.errors, status: :unprocessable_entity
+    end
 
   end
 
