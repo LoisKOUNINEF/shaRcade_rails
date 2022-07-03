@@ -48,8 +48,8 @@ class GamesController < ApplicationController
     break if ApiCallsController.isAPIkeyunique?(@my_api_key)
     end 
     
-    @apicall = ApiCall.new(api_key: @my_api_key, game_id: @game.id, user_id: current_user)
-    
+    @apicall = ApiCall.create(api_key: @my_api_key, game_id: @game.id, user_id: current_user)
+
     if @apicall.save
       if @game.save
         render json: {game: @game, apicall: @apicall}, status: :created
@@ -84,6 +84,6 @@ class GamesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def game_params
-      params.require(:game).permit(:game_title, :game_url, :game_descr, :game_type_id, :image_url)
+      params.require(:game).permit(:game_title, :game_url, :game_descr, :game_type_id, :image_url, :mobile_ready)
     end
 end
