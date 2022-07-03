@@ -38,6 +38,7 @@ class GamesController < ApplicationController
   # POST /games
   def create
     @game = Game.create(game_params)
+    current_user = get_user_from_token
 
     # Creating and fueling the sibling "API Call" object
     # ApiCallsController.apikeygen(n) - Generates a n-symbol-long API Key (16 bytes = 128 bits here below)
@@ -48,7 +49,7 @@ class GamesController < ApplicationController
     # break if ApiCallsController.isAPIkeyunique?(@my_api_key)
     # end
 
-    @apicall = ApiCall.new(api_key: @my_api_key, game_id: @game.id, user_id: current_user)
+    @apicall = ApiCall.new(api_key: @my_api_key, game_id: @game.id, user_id: current_user.id)
 
     if @apicall.save
       if @game.save
@@ -86,4 +87,13 @@ class GamesController < ApplicationController
     def game_params
       params.require(:game).permit(:game_title, :game_url, :game_descr, :game_type_id, :image_url, :mobile_ready)
     end
+
+      def get_user_from_token
+    jwt_payload = JWT.decode(request.headers['Authorization'].split(' ')[1],
+
+      Rails.application.credentials.devise[:jwt_secret_key]).first
+    user_id = jwt_payload['sub']
+    User.find(user_id.to_s)
+  end
+
 end
