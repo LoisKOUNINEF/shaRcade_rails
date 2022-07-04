@@ -53,16 +53,6 @@ class SharcadesController < ApplicationController
     else
       render json: {message: "Sorry, your hi-score could not be processed. [Invalid e-mail format]", status: :unprocessable_entity}
     end
-
-    # render json: {
-    #     message: "If you see this, 'means we got your score in!",
-    #     status: OK
-    #   }
-    
-    #   render json: {
-    #     message: "Looks like you hi-score could not be processed",
-    #     status: :unprocessable_entity
-    #   }
     
     ## REMINDER - Debug data set
     # puts "** BEGIN DEBUG **"
