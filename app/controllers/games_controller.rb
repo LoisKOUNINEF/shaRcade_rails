@@ -52,11 +52,7 @@ class GamesController < ApplicationController
     @apicall = ApiCall.new(api_key: @my_api_key, game_id: @game.id, user_id: current_user.id)
 
     if @apicall.save
-      if @game.save
-        render json: {game: @game,  apicall: @apicall}, status: :created
-      else
-        render json: @game.errors, status: :unprocessable_entity
-      end
+      render json: {game: @game,  apicall: @apicall}, status: :created
     else
       render json: @apicall.errors, status: :unprocessable_entity
     end
