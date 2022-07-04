@@ -4,7 +4,7 @@ require_relative "application"
 ActionMailer::Base.smtp_settings = {
   :user_name => Rails.application.credentials.sendgrid.username,
   :password => Rails.application.credentials.sendgrid.password,
-  :domain => 'sharcade-dev.herokuapp.com',
+  :domain => 'sharcade.herokuapp.com',
   :address => 'smtp.sendgrid.net',
   :port => 587,
   :authentication => :plain,
