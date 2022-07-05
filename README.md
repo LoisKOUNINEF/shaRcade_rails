@@ -3,7 +3,7 @@
 
 # ShaRcade (Rail back-end)
 
-### _Lien vers le repo du [front-end](https://github.com/Teacher-droid/shaRcade_react)_
+### _Lien vers le repo du [front-end](https://github.com/LoisKOUNINEF/shaRcade_react)_
 
 # ShaRcade! (nom non-définitif :wink:)
 
