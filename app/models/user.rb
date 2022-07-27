@@ -10,13 +10,13 @@ class User < ApplicationRecord
   enum role: [:player, :editor, :admin]
   after_initialize :set_default_role, :if => :new_record?
 
-  has_many :scores
+  has_many :scores, dependent: :destroy
   has_many :played_games, through: :scores, class_name: :game
-  has_many :api_calls
+  has_many :api_calls, dependent: :destroy
   has_many :registered_games, through: :api_calls, class_name: :game
-  has_many :favorites
+  has_many :favorites, dependent: :destroy
   has_many :favorite_games, through: :favorites, class_name: :game
-  has_many :feedbacks
+  has_many :feedbacks, dependent: :destroy
   has_many :evaluated_games, through: :feedbacks, class_name: :game
 
   def what_role?
