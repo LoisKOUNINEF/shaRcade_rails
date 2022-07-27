@@ -1,4 +1,6 @@
 class Game < ApplicationRecord
+  validates: game_url, uniqueness: true
+
   belongs_to :game_type
   has_many :scores, dependent: :destroy
   has_many :favorites, dependent: :destroy

@@ -5,7 +5,7 @@ class User < ApplicationRecord
   :jwt_authenticatable,
   jwt_revocation_strategy: JwtDenylist
 
-  validates :nickname, presence: true, length: { in: 3..20 }
+  validates :nickname, presence: true, uniqueness: true, length: { in: 3..20 }
 
   enum role: [:player, :editor, :admin]
   after_initialize :set_default_role, :if => :new_record?
