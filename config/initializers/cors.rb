@@ -6,11 +6,19 @@
 # Read more: https://github.com/cyu/rack-cors
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins '*'
+    origins 'http://sharcade.herokuapp.com'
 
     resource '*',
-             headers: :any,
-             methods: %i[get post put patch delete options head],
-             expose: %w[Authorization Uid]
+            headers: :any,
+            methods: %i[get post put patch delete options head],
+            expose: %w[Authorization Uid]
+  end
+
+  allow do
+    origins '*'
+
+    resource 'sharcade_api',
+            headers: :any,
+            methods: %i[post]
   end
 end
