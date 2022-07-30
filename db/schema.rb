@@ -59,7 +59,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_22_150723) do
     t.string "game_url"
     t.text "game_descr"
     t.bigint "game_type_id", null: false
-    t.string "image_url", default: "default_game_screenshot.png"
+    t.string "image_url", default: "https://iili.io/wGoI3b.png"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "mobile_ready", default: false

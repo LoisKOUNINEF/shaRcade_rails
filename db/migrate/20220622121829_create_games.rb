@@ -5,7 +5,7 @@ class CreateGames < ActiveRecord::Migration[7.0]
       t.string :game_url
       t.text :game_descr
       t.references :game_type, null: false, foreign_key: true
-      t.string :image_url, default: "default_game_screenshot.png"
+      t.string :image_url, default: "https://iili.io/wGoI3b.png"
 
       t.timestamps
     end
